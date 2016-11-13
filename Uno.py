@@ -295,7 +295,7 @@ def juego(mazo_principal,mazo_aux,mesa,jugador,nombre_usuario):
 		else: #juega la compu
 			juego_compu(jugador,carta_actual_arriba,mazo_principal,mazo_aux,nombre_usuario)
 		carta_actual_arriba=mazo_aux.devolver_carta_de_arriba()
-		cambio_variables(carta_actual_arriba,jugador,nombre_usuario,mazo_aux) #agregue el mazo como parametro
+		cambio_variables(carta_actual_arriba,jugador,nombre_usuario,mazo_aux,mesa) #agregue el mazo como parametro
 		jugador=cambio_jugador(jugador,carta_actual_arriba,mesa)
 	print("Felicitaciones {},has ganado".format(str(jugador)))
 
@@ -364,7 +364,7 @@ def elegir_color_pc():
 	color=colores_cartas[eleccion]
 	return color
 
-def cambio_variables(carta,jugador,nombre_usuario,mazo_aux): #agregue al mazo como parametro
+def cambio_variables(carta,jugador,nombre_usuario,mazo_aux,mesa): #agregue al mazo como parametro
 	global POZO_MAS_DOS
 	global POZO_MAS_CUATRO
 	if carta!=None:
@@ -385,6 +385,8 @@ def cambio_variables(carta,jugador,nombre_usuario,mazo_aux): #agregue al mazo co
 		elif carta.accion == "Descartar mitad": #aca esta la carta especial
 			print("Descartas la mitad de tu mano")
 			descartar_mitad(jugador,mazo_aux) #DESCARTAR MITAD
+		elif carta.accion == "Saltear jugador":
+			cambio_jugador(jugador,carta,mesa)
 
 def sumas(carta,carta_arriba,jugador,mazo_aux,mazo_principal,nombre_usuario):
 	sumas_2(carta,carta_arriba,jugador,mazo_aux,nombre_usuario,mazo_principal)
