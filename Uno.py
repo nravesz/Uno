@@ -278,7 +278,7 @@ def no_hay_movimientos(mano_de_cartas,carta_mazo_aux):
 			return True
 	return False
 
-def algo(decision,carta,carta_arriba,jugador,mazo_principal,mazo_aux,nombre_usuario,mesa): #cambiar nombre
+def ejecutar_decision_usuario(decision,carta,carta_arriba,jugador,mazo_principal,mazo_aux,nombre_usuario,mesa): #cambiar nombre
 	"""Si la decisión es sí, verifica la carta y de ser válida la agrega al mazo auxiliar. Si la decisión es no o la carta es inválida, la agrega a su mano"""
 	if decision=="si":
 		if POZO_MAS_DOS != 0 or POZO_MAS_CUATRO!=0:
@@ -336,7 +336,7 @@ def juego_usuario(jugador,carta_arriba,mazo_principal,mazo_aux,nombre,mesa):
 			carta=mazo_principal.dar_carta(mazo_aux)
 			print ("Tomas la carta {}".format(str(carta)))
 			decision=tirar_carta_tomada()
-			algo(decision,carta,carta_arriba,jugador,mazo_principal,mazo_aux,nombre,mesa)
+			ejecutar_decision_usuario(decision,carta,carta_arriba,jugador,mazo_principal,mazo_aux,nombre,mesa)
 	else: #puede hacer un movimiento
 		carta_pos=elegir_carta_a_tirar(jugador) #
 		carta=jugador.tirar_carta(carta_pos)
