@@ -279,7 +279,7 @@ def no_hay_movimientos(mano_de_cartas,carta_mazo_aux):
 			return True
 	return False
 
-def algo(decision,carta,carta_arriba,jugador,mazo_principal,mazo_aux,nombre_usuario,mesa): #cambiar nombre
+def algo(decision,carta,carta_arriba,jugador,mazo_principal,mazo_aux,nombre_usuario,mesa): #cambiar nombre #Podemos llamarla "ejecutar_decision_usuario"
 	"""Si la decisión es sí, verifica la carca y de ser válida la agrega al mazo aux. Si la decisión es no o la carta es inválida, la agrega a su mano"""
 	if decision=="si": # tengo que verificar la carta, pero fiaca ahora
 		cambio_variables(carta,jugador,nombre_usuario,mazo_aux,mesa)
