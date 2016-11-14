@@ -66,9 +66,9 @@ class _ListaDoblementeEnlazadaCircular:
 		return self.len
 
 class _Jugador:
-	"""Clase que representa a un jugador del juego"""
+	"""clase que representa a un jugador del juego"""
 	def __init__(self,nombre):
-		"""Recibe como parámetro el nombre del jugador ...."""
+		"""Recibe como parámetro el nombre del jugador"""
 		self.mano_de_cartas=[]
 		self.nombre=str(nombre) #nombre del jugador
 		self.cant_de_cartas=0
@@ -81,10 +81,10 @@ class _Jugador:
 		self.mano_de_cartas.append(carta)
 		self.cant_de_cartas+=1
 	def cartas_en_mano(self):
-		"""devuelve una lista con todas las cartas del jugador"""
+		"""Devuelve una lista con todas las cartas del jugador"""
 		return self.mano_de_cartas
 	def mostrar_mano(self):
-		"""Imprime una debajo de la otra las cartas pertenecientes a la mano"""
+		"""Imprime una debajo de la otra las cartas pertenecientes a la mano del jugador"""
 		for i,elem in enumerate(self.mano_de_cartas):
 			print(i+1,end="_")
 			print(elem)
@@ -93,14 +93,14 @@ class _Jugador:
 		"""Devuelve True si gano y False si perdió"""
 		return self.cant_de_cartas==0 #si la mano esta vacia entonces ganó
 	def largo_mano(self):
-		"""Devuelve la cantidad de cartas en la mano del jugador""" #sirve para algo???
+		"""Devuelve la cantidad de cartas en la mano del jugador"""
 		return self.cant_de_cartas
 	def __str__(self):
 		"""Devuelve el nombre del jugador"""
 		return self.nombre
 
 class _CartaUno:
-	"""Representa una carta del juego Uno"""# puede mejorarse esa doc jaja #A mi me parece que está bien ajaj
+	"""Representa una carta del juego Uno"""
 	def __init__(self,valor,accion,color):
 		self.valor=valor
 		self.accion=accion
@@ -119,12 +119,11 @@ class _CartaUno:
 			return True
 		if self.valor!="None" and otra.valor!="None" and self.valor==otra.valor: #si son iguales no importa el color
 			return True #son compatibles
-		if self.accion !="None" and otra.valor!="None" and self.accion==otra.accion:
+		if self.accion !="None" and self.accion==otra.accion:
 			return True
 		if self.color=="Sin color" or otra.color=="Sin color":
 			return True
-		else:
-			return False
+		return False
 	def __str__(self):
 		if self.valor=="None":
 			return "[{},{}]".format(self.accion,self.color)
@@ -134,7 +133,7 @@ class _CartaUno:
 class _Mazo:
 	"""Representa a un mazo de cartas"""
 	def __init__(self):
-		"""constructor de la clase _Mazo"""
+		"""Constructor de la clase _Mazo"""
 		self.cartas_en_mazo=_Pila()
 		self.len=0
 	def __len__(self):
@@ -147,9 +146,9 @@ class _Mazo:
 		if otro != None:
 			if len(self.cartas_en_mazo)==1:
 				carta_arriba=otro.cartas_en_mazo.desapilar() #le va a dar la carta que está más arriba del auxiliar
-				for i in range (len(otro.cartas_en_mazo)): #o sino un while mazo.aux.esta_vacio() != True:
+				for i in range (len(otro.cartas_en_mazo)): 
 					self.cartas_en_mazo.agregar_carta(otro.cartas_en_mazo.desapilar())
-				otro.agregar_carta(carta_arriba) #se la añade arriva de todo
+				otro.agregar_carta(carta_arriba) #se la añade arriba de todo
 				self.mezclar()
 		return self.cartas_en_mazo.desapilar()
 	def mezclar(self):
@@ -181,20 +180,20 @@ class _Mazo:
 			self.cartas_en_mazo.apilar(_CartaUno(0,"None",color))
 			self.len+=1
 			for veces in range(2): #agregar las cartas especiales
-				for accion in CARTAS_ESPECIALES_CON_COLOR: #porque agrega dos de cada una
+				for accion in CARTAS_ESPECIALES_CON_COLOR: #agrega dos de cada una
 					self.cartas_en_mazo.apilar(_CartaUno("None",accion,color))
 					self.len+=1
 			for accion in CARTAS_ESPECIALES_SIN_COLOR:
 				self.cartas_en_mazo.apilar(_CartaUno("None",accion,"Sin color"))
 
-def elegir_color_usuario(): #arreglar porque no va a poder ver los colores con los que puede jugar
+def elegir_color_usuario():
 	"""Pide al usuario que ingrese un color y lo valida. Devuelve el color"""
 	color=input("ingrese el color con el que desea que se siga jugando en el mazo: ")
 	while not color.lower() in COLORES_CARTAS:
 		color=input("ingrese el color con el que desea que se siga jugando en el mazo: ")
 	return color
 
-def tiene_movimientos(jugador,carta_mazo_aux): #cambiar el nombre urgente, pero se supone que mira si en el maso tiene un posible juego
+def tiene_movimientos(jugador,carta_mazo_aux):
 	"""Devuelve True si el jugador puede realizar un movimiento y False si no puede"""
 	lista_de_cartas=jugador.cartas_en_mano()
 	for carta in lista_de_cartas:
@@ -212,7 +211,7 @@ def decision_pc(jugador,carta_mazo_aux):
 	contador=0
 	for carta in lista_de_cartas:
 		if posible_movimiento(carta,carta_mazo_aux):
-			return contador #se supone que la primera que le sirve va como piña, esa es su super inteligenia artificial
+			return contador
 		else:
 			contador+=1
 	return None # si no había ninguna carta
@@ -227,12 +226,12 @@ def elegir_carta_a_tirar(jugador):
 	return int(decision)
 
 def cuantos_jugadores():
-	"""Le pregunta al usuario con cuántos jugadores desea jugar"""
+	"""Le pregunta al usuario con cuantos jugadores desea jugar"""
 	print("Puede jugar con 1,2 o 3 jugadores")
 	cant_de_jugadores= input("¿Con cuantos jugadores desea jugár?")
 	while not cant_de_jugadores.isdigit() or int(cant_de_jugadores)>CANTIDAD_JUGADORES_MAXIMOS_PC or int(cant_de_jugadores)<=0 :
 		print("Recuerde que debe ingresar un numero del 1 al 3")
-		cant_de_jugadores= input("¿Con cuantos jugadores desea jugar?  ")
+		cant_de_jugadores= input("¿Con cuantos jugadores desea jugar? ")
 	return int(cant_de_jugadores)
 
 def jugar_nuevamente():
@@ -255,10 +254,10 @@ def bienvenida():
 	return nombre
 
 def llenar_lista(nombre_usuario,lista_enlazada,cant_jugadores_pc):
-	"""Llena la lista_enlazada con un nodo que tiene como dato al jugador usuario y luego de 1 a 3 más jugadores_pc, también como dato de nuevos nodos"""
+	"""LLena la lista_enlazada con un nodo que tiene como dato al jugador usuario y luego de 1 a 3 más jugadores_pc, también como dato de nuevos nodos"""
 	usuario=_Jugador(nombre_usuario)
 	lista_enlazada.append(usuario)
-	for i in range(cant_jugadores_pc): #lo hac por la cantidad de jugadores que quiere el usuario
+	for i in range(cant_jugadores_pc):
 		nombre_pc= NOMBRE_JUGADORES_PC[i]
 		pc=_Jugador(nombre_pc)
 		lista_enlazada.append(pc)
@@ -270,7 +269,7 @@ def repartir(mesa_con_jug,mazo):
 			carta=mazo.dar_carta()
 			jugador=mesa_con_jug.obtener_actual()
 			jugador.recibir_carta(carta)
-			mesa_con_jug.obtener_proximo() #se supone que pasa al siguiente jugador
+			mesa_con_jug.obtener_proximo() #pasa al siguiente jugador
 
 def no_hay_movimientos(mano_de_cartas,carta_mazo_aux):
 	"""Recorre la mano del jugador y verifica si existe un movimiento válido. De existir, devuelve True, en caso contrario, False"""
@@ -279,19 +278,24 @@ def no_hay_movimientos(mano_de_cartas,carta_mazo_aux):
 			return True
 	return False
 
-def algo(decision,carta,carta_arriba,jugador,mazo_principal,mazo_aux,nombre_usuario,mesa): #cambiar nombre #Podemos llamarla "ejecutar_decision_usuario"
-	"""Si la decisión es sí, verifica la carca y de ser válida la agrega al mazo aux. Si la decisión es no o la carta es inválida, la agrega a su mano"""
-	if decision=="si": # tengo que verificar la carta, pero fiaca ahora
-		cambio_variables(carta,jugador,nombre_usuario,mazo_aux,mesa)
-		mazo_aux.agregar_carta(carta)		#la agrego al mazo de juego
+def algo(decision,carta,carta_arriba,jugador,mazo_principal,mazo_aux,nombre_usuario,mesa): #cambiar nombre
+	"""Si la decisión es sí, verifica la carta y de ser válida la agrega al mazo auxiliar. Si la decisión es no o la carta es inválida, la agrega a su mano"""
+	if decision=="si":
+		if POZO_MAS_DOS != 0 or POZO_MAS_CUATRO!=0:
+			sumas(carta,carta_arriba,jugador,mazo_aux,mazo_principal,nombre_usuario,mesa)
+		else:
+			if carta.controlar_igualdad(carta_arriba) == True: #verifico si coinciden las cartas
+				mazo_aux.agregar_carta(carta)		#la agrego al mazo de juego
+			else:
+				jugador.recibir_carta(carta)
 	else:
 		jugador.recibir_carta(carta) #si no la puede usar se la queda
 
 def juego(mazo_principal,mazo_aux,mesa,jugador,nombre_usuario):
-	"""Donde se llevan a cabo las funciones relacionadas a la jugabilidad. Si un jugador se queda sin cartas, imprime su nombre y lo felicita"""
+	"""Donde se llevan a cabo las funciones relacionadas a la jugabilidad. Si un jugador queda sin cartas, imprime su nombre y lo felicita informándole que ganó el juego"""
 	global POZO_MAS_DOS
 	global POZO_MAS_CUATRO
-	while not jugador.gano(): #porque cuando ganó uno ya está, terminó todo.
+	while not jugador.gano():
 		carta_arriba = mazo_aux.devolver_carta_de_arriba()
 		print("La carta que se encuentra arriba es : {} ".format(carta_arriba))
 		print()
@@ -318,7 +322,7 @@ def juego(mazo_principal,mazo_aux,mesa,jugador,nombre_usuario):
 		print()
 
 def juego_usuario(jugador,carta_arriba,mazo_principal,mazo_aux,nombre,mesa):
-	"""Imprime la mano del usuario y se verifica si tiene movimientos. De ser así, se le pide que elija una carta hasta que esta coincida con el tope del mazo. La carta se agrega al mazo aux. De no tener movimientos, toma una carta y se verifica si la puede jugar"""
+	"""Imprime la mano del usuario y se verifica si tiene movimientos. De ser así, se le pide que elija una carta hasta que coincida con el tope del mazo. La carta se agrega al mazo auxiliar. De no tener movimientos, toma una carta y se verifica si la puede jugar"""
 	global POZO_MAS_DOS
 	global POZO_MAS_CUATRO
 	print("Es tu turno {}".format(nombre))
@@ -364,7 +368,7 @@ def juego_compu(jugador,carta_arriba,mazo_principal,mazo_aux,nombre,mesa):
 		else:
 			print("{} toma una carta".format(str(jugador)))
 			carta_a_agarrar=mazo_principal.dar_carta(mazo_aux)
-			if carta_a_agarrar.controlar_igualdad(carta_arriba) == True: #no sé si es super necesario el igual a true
+			if carta_a_agarrar.controlar_igualdad(carta_arriba) == True:
 				mazo_aux.agregar_carta(carta_a_agarrar)
 				print("{} tira la carta {}".format(nombre_pc,str(carta_a_agarrar)))
 			else:
@@ -373,20 +377,20 @@ def juego_compu(jugador,carta_arriba,mazo_principal,mazo_aux,nombre,mesa):
 		carta=jugador.tirar_carta(decision)
 		if POZO_MAS_DOS!=0 or POZO_MAS_CUATRO!=0:
 			sumas(carta,carta_arriba,jugador,mazo_aux,mazo_principal,nombre)
-		else:#no hay ninguna suma rara
+		else:
 			print("El jugador {} tira la carta {}".format(nombre_pc,str(carta)))
 			mazo_aux.agregar_carta(carta)
 
 def cambio_jugador(jugador,carta,mesa):
-	"""Si ESTADO_INVERSION es True, pasa al siguiente jugador, si es False, pasa al anterior jugador. Si además, la carta jugada es Saltear jugador, se saltea un jugador. Devuelve al jugador"""
+	"""Si ESTADO_INVERSION es True, pasa al jugador siguiente, si es False, pasa al anterior jugador. Si además, la carta jugada es "Saltear jugador", se saltea un jugador. Devuelve al jugador"""
 	global ESTADO_INVERSION
 	if ESTADO_INVERSION=="Horario":
 		if "Saltear jugador" in str(carta):
-			jugador=mesa.obtener_proximo() # osea se saltea a uno
+			jugador=mesa.obtener_proximo() #se saltea un jugador
 			print("Se saltea al jugador {}".format(str(jugador)))
 		else:
 			jugador=mesa.obtener_proximo()
-	else: #osea va al revez
+	else: #va al revez
 		if "Saltear jugador" in str(carta):
 			jugador=mesa.obtener_anterior()
 			print("Se saltea al jugador {}".format(str(jugador)))
@@ -405,12 +409,12 @@ def cambio_variables(carta,jugador,nombre_usuario,mazo_aux,mesa):
 	global POZO_MAS_DOS
 	global POZO_MAS_CUATRO
 	invertir_sentido(carta,jugador,nombre_usuario)
-	if carta.accion == "Descartar mitad": #aca esta la carta especial
+	if carta.accion == "Descartar mitad": #carta especial
 		if str(jugador) == nombre_usuario:
 			print("Descartas la mitad de tu mano")
 		else:
 			print("{} descarta la mitad de su mano".format(str(jugador)))
-		descartar_mitad(jugador,mazo_aux) #DESCARTAR MITAD
+		descartar_mitad(jugador,mazo_aux)
 	elif "+2" in str(carta):
 		POZO_MAS_DOS=2
 	elif "+4" in str(carta):
@@ -426,7 +430,7 @@ def cambio_variables(carta,jugador,nombre_usuario,mazo_aux,mesa):
 def invertir_sentido(carta,jugador,nombre_usuario):
 	"""Invierte el sentido del juego, siendo los sentidos posibles, horario y antihorario"""
 	global ESTADO_INVERSION
-	if "Invertir sentido" in str(carta): #ver de hacerlo tipo lista[1] para que se mas cambiable el nobre o lo que sea
+	if "Invertir sentido" in str(carta):
 		print("Se invierte el sentido de la ronda")
 		if ESTADO_INVERSION=="Horario":
 			ESTADO_INVERSION="Anti horario"
@@ -434,13 +438,13 @@ def invertir_sentido(carta,jugador,nombre_usuario):
 			ESTADO_INVERSION="Horario"
 
 def cambiar_color(carta,jugador,nombre_usuario):
-	"""Cambia el color de la carta Cambiar color, preguntalo al usuario su preferencia en caso de que este la halla tirado """
+	"""Cambia el color de la carta Cambiar color, preguntando al usuario su preferencia en caso de que este la haya tirado """
 	if "Cambiar color" in str(carta):
 		if str(jugador) == nombre_usuario:
 			color_elegido= elegir_color_usuario() #elige el color que quiere
 		else:
 			color_elegido= elegir_color_pc()
-		carta.cambiar_color(str(color_elegido)) #no sé si es necesario el str
+		carta.cambiar_color(str(color_elegido))
 		print("El color de la ronda cambia a {}".format(color_elegido))
 
 def sumas(carta,carta_arriba,jugador,mazo_aux,mazo_principal,nombre_usuario):
@@ -467,7 +471,7 @@ def sumas_2(carta,carta_arriba,jugador,mazo_aux,nombre_usuario,mazo_principal):
 			print("Se agregan {} cartas a tu mano".format(POZO_MAS_DOS))
 		else:
 			print("{} toma {} cartas".format(str(jugador),POZO_MAS_DOS))
-		jugador.recibir_carta(carta) #es como que al final no la tira
+		jugador.recibir_carta(carta)
 		for i in range(POZO_MAS_DOS):
 			jugador.recibir_carta(mazo_principal.dar_carta(mazo_aux))
 		POZO_MAS_DOS=0
@@ -495,27 +499,15 @@ def sumas_4(carta,carta_arriba,jugador,mazo_aux,nombre_usuario,mazo_principal):
 		else:
 			print("{} toma {} cartas".format(str(jugador),POZO_MAS_CUATRO))
 		for i in range(POZO_MAS_CUATRO):
-			jugador.recibir_carta(mazo_principal.dar_carta(mazo_aux)) #si no tiro una de mas cuatro se come las q se juntaron
+			jugador.recibir_carta(mazo_principal.dar_carta(mazo_aux)) #si no tiro una de mas cuatro se le suman a la mano
 		POZO_MAS_CUATRO=0 #vuelve a cero hasta que de nuevo se empieze a sumar
 
-def decision_pc(jugador,carta_mazo_aux):
-	"""Devuelve la posicion de la carta que tira el jugador_pc o un None si no tiene movimientos posibles"""
-	lista_de_cartas=jugador.cartas_en_mano()
-	contador=0
-	for carta in lista_de_cartas:
-		if posible_movimiento(carta,carta_mazo_aux):
-			return contador #se supone que la primera que le sirve va como piña, esa es su super inteligenia artificial
-		else:
-			contador+=1
-	return None # si no había ninguna carta
-
 def tirar_carta_tomada():
-	"""Dada un carta tomada del mazo se le da a elegir al usuario si quiere o no tomarla, devolviendo su decision"""
+	"""Dada un carta tomada del mazo se le da a elegir al usuario si quiere o no jugarla, devolviendo su decision"""
 	decision=input("Deseas tirar la carta tomada? ")
 	while decision.lower() != "si" and decision.lower() != "no":
 		decision=input("Debes ingresar si o no, deseas tirar la carta tomada? ")
 	return decision.lower()
-
 
 def descartar_mitad(jugador,mazo_aux):
 	"""Carta especial. Si la carta que recibe coincide con Descartar mitad, descarta la mitad de las cartas del jugador y las agrega al mazo auxiliar"""
